@@ -75,42 +75,51 @@ describe "Authentication" do
       describe "for non-signed-in users" do
         let (:user) { FactoryGirl.create(:user) }
 
-          describe "when attempting to visit a protected page" do
-            before do
-              visit edit_user_path(user)
-              fill_in "Email", with: user.email
-              fill_in "Password", with: user.password
-              click_button "Sign in"
-            end
-
-            describe "after signing in" do
-
-              it "should render the desired protected page" do
-                expect(page).to have_selector('title', text: 'Edit user')
-              end
-            end
+        describe "when attempting to visit a protected page" do
+          before do
+            visit edit_user_path(user)
+            fill_in "Email", with: user.email
+            fill_in "Password", with: user.password
+            click_button "Sign in"
           end
 
-          describe "in the Users controller" do
+          describe "after signing in" do
 
-            describe "visiting the edit page" do
-              before { visit edit_user_path(user) }
-              it { should have_selector('title', text: 'Sign in') }
+            it "should render the desired protected page" do
+              expect(page).to have_selector('title', text: 'Edit user')
             end
+          end
+        end
 
-            describe "submitting to the update action" do
-              before { put user_path(user) }
-              specify { expect(response).to redirect_to(signin_path) }
-            end
+        describe "in the Users controller" do
 
-            describe "visiting the user index" do
-              before { visit users_path }
-              it { should have_selector('title', text: 'Sign in') }
-            end
-
+          describe "visiting the edit page" do
+            before { visit edit_user_path(user) }
+            it { should have_selector('title', text: 'Sign in') }
           end
 
-      end
+          describe "submitting to the update action" do
+            before { put user_path(user) }
+            specify { expect(response).to redirect_to(signin_path) }
+          end
+
+          describe "visiting the user index" do
+            before { visit users_path }
+            it { should have_selector('title', text: 'Sign in') }
+          end
+
+        end
+
+        describe "submitting to the create action" do
+            before { post microposts_path}
+            specify { expect(response).to redirect_to(signin_path) }
+        end
+
+        describe "submitting to the destroy action" do
+          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+    end
 
        describe "as non-admin user" do
       let(:user) { FactoryGirl.create(:user) }

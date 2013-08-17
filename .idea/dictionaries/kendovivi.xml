@@ -5,10 +5,13 @@
       <w>bmabey</w>
       <w>capybara</w>
       <w>gravatar</w>
+      <w>micropost</w>
+      <w>microposts</w>
       <w>signin</w>
       <w>signout</w>
       <w>signup</w>
       <w>uglifier</w>
+      <w>unfollowed</w>
     </words>
   </dictionary>
 </component>
